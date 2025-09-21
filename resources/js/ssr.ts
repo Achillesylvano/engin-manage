@@ -1,6 +1,6 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import createServer from '@inertiajs/vue3/server';
-import { renderToString } from 'vue/server-renderer';
+import { renderToString } from '@vue/server-renderer';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createSSRApp, DefineComponent, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
@@ -11,7 +11,7 @@ createServer((page) =>
     createInertiaApp({
         page,
         render: renderToString,
-        title: (title) => title ? `${title} - ${appName}` : appName,
+        title: (title) => `${title} - ${appName}`,
         resolve: resolvePage,
         setup: ({ App, props, plugin }) =>
             createSSRApp({ render: () => h(App, props) })
