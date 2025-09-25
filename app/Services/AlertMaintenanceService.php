@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Events\AlertMaintenanceCreated;
 use App\Models\AlertMaintenance;
 use App\Models\DailyUsage;
 
@@ -42,13 +43,16 @@ class AlertMaintenanceService
 
                 if (! in_array($key, $alertesExistantes, true)) {
                     // Création de l'alerte
-                    AlertMaintenance::create([
+                    $alertMaintenance = AlertMaintenance::create([
                         'engin_id' => $engin->id,
                         'maintenance_automatique_id' => $maintenanceAuto->id,
                         'type' => $maintenanceAuto->type,
                         'statut' => 'nouvelle',
                         'compteur_declencheur' => $compteurActuel,
                     ]);
+
+                    // Diffuser l'événement pour mise à jour temps réel
+                    AlertMaintenanceCreated::dispatch($alertMaintenance);
 
                     // Mise à jour du dernier compteur pour cette maintenance
                     $maintenanceAuto->update([

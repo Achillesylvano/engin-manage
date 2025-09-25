@@ -4,6 +4,9 @@ import { Engin, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3'
 import { Button } from '@/components/ui/button';
+import { ref } from 'vue';
+import { useEchoPublic } from "@laravel/echo-vue";
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -58,6 +61,25 @@ const props = defineProps<{
     enginEnMaintenance: number;
     enginHorsService: number;
 }>();
+
+// Réactivité pour les alertes de maintenance
+const alertMaintenances = ref<Array<Alerte>>([...props.alert_maintenances]);
+
+const addNewAlert = (newAlert: Alerte) => {
+    newAlert.created_human = 'À l\'instant';
+
+    alertMaintenances.value.unshift(newAlert);
+
+    if (alertMaintenances.value.length > 3) {
+        alertMaintenances.value = alertMaintenances.value.slice(0, 3);
+    }
+    console.log('Nouvelle alerte de maintenance:', newAlert);
+};
+
+useEchoPublic("alert-maintenance-channel", "alert-maintenance-created", (event: any) => {
+    console.log("📡 ÉVÉNEMENT REÇU :", event);
+    addNewAlert(event.alert_maintenance);
+});
 
 // const alertBorderClass = (severity: string) => {
 //     const classes = {
@@ -239,8 +261,8 @@ const props = defineProps<{
                     </div>
                     <div class="px-6 py-4">
                         <div class="space-y-4">
-                            <div v-for="alerte in props.alert_maintenances" :key="alerte.id"
-                                class="flex items-start justify-between p-3 mb-2 rounded-md border border-gray-200 bg-white shadow-sm hover:bg-gray-50 transition">
+                            <div v-for="alerte in alertMaintenances" :key="alerte.id"
+                                class="flex items-start justify-between p-3 mb-2 rounded-md border border-gray-200 bg-white shadow-sm hover:bg-gray-50 transition animate-pulse">
 
                                 <!-- Gauche -->
                                 <div class="flex items-start gap-3 flex-1">
