@@ -5,8 +5,6 @@ namespace App\Events;
 use App\Models\AlertMaintenance;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -20,9 +18,7 @@ class AlertMaintenanceCreated implements ShouldBroadcast
      */
     public function __construct(
         public AlertMaintenance $alertMaintenance
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Get the channels the event should broadcast on.
@@ -41,7 +37,7 @@ class AlertMaintenanceCreated implements ShouldBroadcast
      */
     public function broadcastAs(): string
     {
-        return 'alert-maintenance-created';
+        return 'alert.maintenance.created';
     }
 
     /**

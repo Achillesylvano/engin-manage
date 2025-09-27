@@ -57,7 +57,7 @@ const props = defineProps<{
         };
     }>;
     totalEngin: number;
-    enginDisponible: number;
+
     enginEnMaintenance: number;
     enginHorsService: number;
 }>();
@@ -76,7 +76,7 @@ const addNewAlert = (newAlert: Alerte) => {
     console.log('Nouvelle alerte de maintenance:', newAlert);
 };
 
-useEchoPublic("alert-maintenance-channel", "alert-maintenance-created", (event: any) => {
+useEchoPublic("alert-maintenance-channel", ".alert.maintenance.created", (event: any) => {
     console.log("📡 ÉVÉNEMENT REÇU :", event);
     addNewAlert(event.alert_maintenance);
 });
@@ -141,7 +141,7 @@ useEchoPublic("alert-maintenance-channel", "alert-maintenance-created", (event: 
                             <span>Opérationnels</span>
                         </div>
 
-                        <div class="text-3xl dark:text-gray-100" v-text="enginDisponible">
+                        <div class="text-3xl dark:text-gray-100">
                         </div>
 
                         <div class="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-green-600">
