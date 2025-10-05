@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Builders\DailyUsageBuilder;
 use App\Observers\DailyUsageObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class DailyUsage extends Model
 {
     /** @use HasFactory<\Database\Factories\DailyUsageFactory> */
-    use HasFactory;
+    use BroadcastsEvents,HasFactory;
 
     protected $guarded = [];
 
@@ -59,5 +60,10 @@ class DailyUsage extends Model
     public function scopeEnCours(Builder $query)
     {
         return $query->where('is_returned', false);
+    }
+
+    public function broadcastOn(string $event): array
+    {
+        return [$this];
     }
 }

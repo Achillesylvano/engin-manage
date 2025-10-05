@@ -2,6 +2,8 @@
 
 namespace App\Observers;
 
+use App\Events\DailyUsageCreated;
+use App\Events\DailyUsageUpdated;
 use App\Models\DailyUsage;
 use App\Services\AlertMaintenanceService;
 
@@ -12,7 +14,7 @@ class DailyUsageObserver
      */
     public function created(DailyUsage $dailyUsage): void
     {
-        //
+        DailyUsageCreated::dispatch($dailyUsage);
     }
 
     /**
@@ -40,6 +42,7 @@ class DailyUsageObserver
         $engin->refresh();
         // (new AlertMaintenanceService)->checkSeuil($dailyUsage);
         app(AlertMaintenanceService::class)->checkSeuil($dailyUsage);
+        DailyUsageUpdated::dispatch($dailyUsage);
 
     }
 

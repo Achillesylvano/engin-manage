@@ -8,6 +8,8 @@ import { ref } from 'vue';
 import { Input } from '@/components/ui/input';
 import Pagination from '@/components/Pagination.vue';
 import DailyUsageCard from '@/components/DailyUsageCard.vue';
+import { useEchoPublic } from "@laravel/echo-vue";
+
 
 
 
@@ -61,6 +63,20 @@ const form = useForm<{
         carburant: '',
     }
 });
+
+const dailyUsages = ref<Array<DailyUsage>>([...props.daily_usages.data]);
+
+useEchoPublic<{ daily_usage: DailyUsage }>(`daily-usages`, [".daily.usage.created", ".daily.usage.updated"],
+    (e: { daily_usage: DailyUsage }) => {
+        const index = dailyUsages.value.findIndex(usage => usage.id === e.daily_usage.id);
+        if (index !== -1) {
+            dailyUsages.value[index] = e.daily_usage;
+        } else {
+            dailyUsages.value.unshift(e.daily_usage);
+        }
+        console.log(e);
+    }
+);
 
 
 const submit = () => {
@@ -234,9 +250,8 @@ const submit = () => {
             <!-- Liste des engins-->
 
             <div>
-                <div v-if="props.daily_usages.data.length > 0"
-                    class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <DailyUsageCard :usages="props.daily_usages.data" />
+                <div v-if="dailyUsages.length > 0" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <DailyUsageCard :usages="dailyUsages" />
                 </div>
 
                 <div v-else class="text-center py-12">

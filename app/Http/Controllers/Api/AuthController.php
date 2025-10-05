@@ -25,17 +25,15 @@ class AuthController extends Controller
 
         $user = User::where('matricule', $request->matricule)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'matricule' => ['The provided credentials are incorrect.'],
-            ]);
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages(['matricule' => 'Les donnée saisie sont incorrect']);
         }
 
         $token = $user->createToken($request->device_name)->plainTextToken;
 
         return response()->json([
             'token' => $token,
-            'user' => UserResource::make($user)
+            'user' => UserResource::make($user),
         ]);
 
     }
