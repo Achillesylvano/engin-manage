@@ -19,8 +19,6 @@ class GeneratePdfAction
 
     /**
      * Exécute la génération du PDF pour une entité
-     *
-     * @param  bool  $download
      */
     public function execute(Model $entity, Fluent $filters, string $view, string $filename): Response
     {

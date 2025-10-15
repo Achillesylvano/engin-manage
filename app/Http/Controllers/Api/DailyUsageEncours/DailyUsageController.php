@@ -18,11 +18,11 @@ class DailyUsageController extends Controller
     {
         $dailyusages = QueryBuilder::for(DailyUsage::enCours())
             ->allowedFilters([
-                AllowedFilter::callback('operateur', function ($query, $value) {
+                AllowedFilter::callback('operateur', function ($query, $value): void {
                     $query->whereHas('operateur', fn($q) => $q->where('name', 'like', "%{$value}%"));
                 }),
                 // Filtre sur relation engin
-                AllowedFilter::callback('numero_serie', function ($query, $value) {
+                AllowedFilter::callback('numero_serie', function ($query, $value): void {
                     $query->whereHas('engin', fn($q) => $q->where('numero_serie', 'like', "%{$value}%"));
                 }),
             ])

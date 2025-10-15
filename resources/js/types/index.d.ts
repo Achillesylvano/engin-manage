@@ -75,7 +75,7 @@ export interface Maintenance {
     incident?: Incident | null;
 }
 
-interface Engin {
+export interface Engin {
     id: number;
     numero_serie: string;
     marque: string;
@@ -92,4 +92,25 @@ interface Engin {
     type_engin: TypeEngin | null;
 }
 
+export interface MaintenanceAutomatique {
+    id: number;
+    engin_id: number;
+    type: string;
+    seuil: number;
+    description: string;
+    dernier_compteur: number;
+    actif: boolean;
+}
+
+export interface AlertMaintenance {
+    id: number;
+    engin_id: number;
+    maintenance_automatique_id: number;
+    compteur_declencheur: number;
+    statut: 'nouvelle' | 'planifiee';
+    type: 'horaire' | 'km';
+    engin: Engin;
+    maintenance_automatique: MaintenanceAutomatique;
+    created_human: string;
+}
 export type BreadcrumbItemType = BreadcrumbItem;

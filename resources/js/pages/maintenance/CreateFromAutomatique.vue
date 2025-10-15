@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/engins/Layout.vue';
-import { type BreadcrumbItem } from '@/types';
+import { AlertMaintenance, User, type BreadcrumbItem } from '@/types';
 import { LoaderCircle } from 'lucide-vue-next';
 import { Textarea } from '@/components/ui/textarea'
 
@@ -36,23 +36,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const props = defineProps<{
-    maintenance_type: Record<string, string>;
-    maintenance_statut: Record<string, string>;
-
-    techniciens:
-    {
-        data: Array<{
-            id: number,
-            name: string,
-        }>
-    },
-    engins:
-    {
-        data: Array<{
-            id: number,
-            nom: string,
-        }>
-    },
+    alertMaintenance: AlertMaintenance,
+    techniciens: {
+        data: Array<User>
+    }
 }>();
 
 const form = useForm<{
@@ -63,15 +50,17 @@ const form = useForm<{
     engin_id: number;
     technicien_id: number;
     incident_id?: number;
+    maintenance_automatique_id?: number
 
 }>({
-    type: '',
-    description: '',
+    type: 'préventive',
+    description: props.alertMaintenance.maintenance_automatique.description,
     date_planifiee: '',
-    statut: '',
-    engin_id: 0,
+    statut: 'planifiee',
+    engin_id: props.alertMaintenance.engin_id,
     technicien_id: 0,
     incident_id: undefined,
+    maintenance_automatique_id: props.alertMaintenance.maintenance_automatique_id
 });
 
 const submit = () => {
@@ -99,40 +88,15 @@ const submit = () => {
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="grid gap-2">
                                     <Label for="nom">Type de maintenance</Label>
-                                    <Select v-model="form.type">
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Selectinner un type" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <template v-for="(label, value) in props.maintenance_type" :key="value">
-                                                    <SelectItem :value="value">
-                                                        {{ label }}
-                                                    </SelectItem>
-                                                </template>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <Input id="designation" class="mt-1 block w-full" v-model="form.type" required
+                                        autocomplete="designation" placeholder="Désignation" />
                                     <InputError class="mt-2" :message="form.errors.type" />
                                 </div>
 
                                 <div class="grid gap-2">
                                     <Label for="nom">Statut</Label>
-                                    <Select v-model="form.statut">
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Selectinner un type" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <template v-for="(label, value) in props.maintenance_statut"
-                                                    :key="value">
-                                                    <SelectItem :value="value">
-                                                        {{ label }}
-                                                    </SelectItem>
-                                                </template>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <Input id="designation" class="mt-1 block w-full" v-model="form.statut" required
+                                        autocomplete="designation" placeholder="Désignation" />
                                     <InputError class="mt-2" :message="form.errors.statut" />
                                 </div>
                                 <div class="grid gap-2">

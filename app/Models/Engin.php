@@ -69,14 +69,14 @@ class Engin extends Model
     public function scopeDisponibles(Builder $query): Builder
     {
         return $query->whereDoesntHave('dailyUsages')
-            ->orWhereHas('latestDailyUsage', function ($q) {
+            ->orWhereHas('latestDailyUsage', function ($q): void {
                 $q->where('is_returned', true);
             });
     }
 
     public function scopeSortie(Builder $query): Builder
     {
-        return $query->whereHas('latestDailyUsage', function ($q) {
+        return $query->whereHas('latestDailyUsage', function ($q): void {
             $q->where('is_returned', false);
         });
     }

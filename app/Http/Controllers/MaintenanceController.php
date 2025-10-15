@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\MaintenanceStatus;
 use App\Enums\MaintenanceType;
+use App\Http\Requests\StoreMaintenanceRequest;
 use App\Http\Resources\EnginResource;
 use App\Http\Resources\UserResource;
 use App\Models\Engin;
+use App\Models\Maintenance;
 use App\Models\User;
 use App\Services\Maintenance\MaintenanceService;
 use Illuminate\Http\Request;
@@ -44,9 +46,13 @@ class MaintenanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMaintenanceRequest $request)
     {
-        //
+        $user = auth()->user();
+        $validated = $request->validated();
+        Maintenance::create($validated);
+
+        return redirect()->back()->with('success', 'La maintenance a été créé');
     }
 
     /**

@@ -25,8 +25,6 @@ class EnginResource extends JsonResource
             'numero_serie' => $this->numero_serie,
             'compteur_h' => $this->compteur_h,
             'compteur_km' => $this->compteur_km,
-            'seuil_maintenance_h' => $this->seuil_maintenance_h,
-            'seuil_maintenance_km' => $this->seuil_maintenance_km,
             'etat' => $this->etat,
             'etat_label' => $this->etat->label(),
             'etat_color' => $this->etat->color(),

@@ -10,9 +10,6 @@ import Pagination from '@/components/Pagination.vue';
 import DailyUsageCard from '@/components/DailyUsageCard.vue';
 import { useEchoPublic } from "@laravel/echo-vue";
 
-
-
-
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Mouvements',

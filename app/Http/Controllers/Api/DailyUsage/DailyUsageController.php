@@ -23,11 +23,11 @@ class DailyUsageController extends Controller
                 // Filtre sur colonne directe
                 'is_returned',
                 // Filtre sur relation opérateur
-                AllowedFilter::callback('operateur', function ($query, $value) {
+                AllowedFilter::callback('operateur', function ($query, $value): void {
                     $query->whereHas('operateur', fn($q) => $q->where('name', 'like', "%{$value}%"));
                 }),
                 // Filtre sur relation engin
-                AllowedFilter::callback('numero_serie', function ($query, $value) {
+                AllowedFilter::callback('numero_serie', function ($query, $value): void {
                     $query->whereHas('engin', fn($q) => $q->where('numero_serie', 'like', "%{$value}%"));
                 }),
             ])
@@ -98,7 +98,7 @@ class DailyUsageController extends Controller
             'compteur_h_retour' => [
                 'required',
                 'numeric',
-                function ($attribute, $value, $fail) use ($dailyUsage) {
+                function ($attribute, $value, $fail) use ($dailyUsage): void {
                     if ($value < $dailyUsage->compteur_h_sortie) {
                         $fail("Le compteur d'heures retour doit être supérieur ou égal à {$dailyUsage->compteur_h_sortie}");
                     }
@@ -107,7 +107,7 @@ class DailyUsageController extends Controller
             'compteur_km_retour' => [
                 'required',
                 'numeric',
-                function ($attribute, $value, $fail) use ($dailyUsage) {
+                function ($attribute, $value, $fail) use ($dailyUsage): void {
                     if ($value < $dailyUsage->compteur_km_sortie) {
                         $fail("Le compteur km retour doit être supérieur ou égal à {$dailyUsage->compteur_km_sortie}");
                     }

@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { Engin, type BreadcrumbItem } from '@/types';
+import { AlertMaintenance, type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import { Link } from '@inertiajs/vue3'
-import { Button } from '@/components/ui/button';
+import AlertMaintenanceList from '@/components/AlertMaintenanceList.vue';
 import { ref } from 'vue';
 import { useEchoPublic } from "@laravel/echo-vue";
 
@@ -15,20 +14,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-interface MaintenanceAutomatique {
-    id: number;
-    description: string;
-    type: "horaire" | "km";
-}
-
-interface Alerte {
-    id: number;
-    engin: Engin;
-    maintenance_automatique: MaintenanceAutomatique;
-    compteur_declencheur: number;
-    statut: "nouvelle" | "planifiee";
-    created_human: string;
-}
 
 const props = defineProps<{
     incidents: Array<{
@@ -41,7 +26,7 @@ const props = defineProps<{
             nom: string;
         } | null;
     }>;
-    alert_maintenances: Array<Alerte>;
+    alert_maintenances: Array<AlertMaintenance>;
     maintenances: Array<{
         id: number;
         date_planifiee: string;
@@ -63,9 +48,9 @@ const props = defineProps<{
 }>();
 
 // Réactivité pour les alertes de maintenance
-const alertMaintenances = ref<Array<Alerte>>([...props.alert_maintenances]);
+const alertMaintenances = ref<Array<AlertMaintenance>>([...props.alert_maintenances]);
 
-const addNewAlert = (newAlert: Alerte) => {
+const addNewAlert = (newAlert: AlertMaintenance) => {
     newAlert.created_human = 'À l\'instant';
 
     alertMaintenances.value.unshift(newAlert);
@@ -261,81 +246,10 @@ useEchoPublic("alert-maintenance-channel", ".alert.maintenance.created", (event:
                     </div>
                     <div class="px-6 py-4">
                         <div class="space-y-4">
-                            <div v-for="alerte in alertMaintenances" :key="alerte.id"
-                                class="flex items-start justify-between p-3 mb-2 rounded-md border border-gray-200 bg-white shadow-sm hover:bg-gray-50 transition animate-pulse">
-
-                                <!-- Gauche -->
-                                <div class="flex items-start gap-3 flex-1">
-                                    <!-- Icône -->
-                                    <div
-                                        class="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-100 text-yellow-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M12 9v2m0 4h.01M12 3a9 9 0 100 18 9 9 0 000-18z" />
-                                        </svg>
-                                    </div>
-
-                                    <!-- Texte -->
-                                    <div class="flex-1 min-w-0">
-                                        <!-- Ligne titre + badge -->
-                                        <div class="flex items-center gap-2">
-                                            <p class="text-sm font-semibold text-gray-900 truncate">
-                                                {{ alerte.engin?.designation }}
-                                            </p>
-                                            <span
-                                                class="px-2 py-0.5 text-[10px] font-medium rounded bg-yellow-100 text-yellow-700 capitalize">
-                                                {{ alerte.maintenance_automatique?.type }}
-                                            </span>
-                                        </div>
-
-                                        <!-- Dernier compteur -->
-                                        <p class="text-xs text-gray-600 mt-1">
-                                            Seuil atteint :
-                                            <span class="font-semibold text-gray-900">
-                                                {{ alerte.maintenance_automatique?.type === 'horaire'
-                                                    ? alerte.compteur_declencheur + ' h'
-                                                    : alerte.compteur_declencheur + ' km' }}
-                                            </span>
-                                        </p>
-
-                                        <!-- Message alerte -->
-                                        <p class="text-xs text-red-600 mt-0.5">⚠️ Maintenance nécessaire</p>
-                                    </div>
-                                </div>
-
-                                <!-- Droite -->
-                                <div class="flex items-center gap-2 ml-3">
-                                    <p class="text-[10px] text-gray-400 whitespace-nowrap">
-                                        {{ alerte.created_human }}
-                                    </p>
-                                    <Link href="#">
-                                    <Button
-                                        class="px-3 py-1.5 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-md shadow-sm transition flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 
-         0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                        Planifier
-                                    </Button>
-
-                                    </Link>
-                                </div>
-                            </div>
-
-
-
-
-
-
-
-
+                            <AlertMaintenanceList :alertMaintenances="alertMaintenances" />
                         </div>
                     </div>
-
                 </div>
-
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
                         <h3 class="text-lg font-medium text-gray-900">Maintenances Prochaines</h3>
@@ -357,7 +271,6 @@ useEchoPublic("alert-maintenance-channel", ".alert.maintenance.created", (event:
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
                                             </svg>
-
                                         </div>
                                     </div>
                                     <div>

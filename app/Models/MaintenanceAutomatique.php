@@ -17,4 +17,9 @@ class MaintenanceAutomatique extends Model
     {
         return $this->hasMany(Maintenance::class);
     }
+
+    public function alertMaintenances()
+    {
+        return $this->hasMany(AlertMaintenance::class);
+    }
 }

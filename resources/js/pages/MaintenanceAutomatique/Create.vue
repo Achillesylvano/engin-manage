@@ -1,3 +1,4 @@
+-- Active: 1752564748939@@127.0.0.1@3306
 <script setup lang="ts">
 import { Head, useForm, } from '@inertiajs/vue3';
 
@@ -61,14 +62,10 @@ const formKm = useForm<{
 });
 
 const submitHoraire = () => {
-    formHoraire.post(route('maintenance-automatiques.store'), {
-        onFinish: () => formHoraire.reset('seuil', 'description'),
-    });
+    formHoraire.post(route('maintenance-automatiques.store'));
 };
 const submitKm = () => {
-    formKm.post(route('maintenance-automatiques.store'), {
-        preserveScroll: true,
-    });
+    formKm.post(route('maintenance-automatiques.store'));
 };
 
 
@@ -96,6 +93,10 @@ const submitKm = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div v-if="$page.props.flash.success"
+                class="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300 text-center">
+                {{ $page.props.flash.success }}
             </div>
 
             <Tabs default-value="horaire">

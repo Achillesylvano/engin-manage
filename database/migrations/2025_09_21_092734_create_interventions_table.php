@@ -16,7 +16,7 @@ return new class extends Migration
             $table->dateTime('date_debut');
             $table->dateTime('date_fin')->nullable();
             $table->text('description')->nullable();
-            $table->enum('etat_post_maintenance', ['fonctionnel', 'non fonctionnel']);
+            $table->enum('etat_post_maintenance', ['fonctionnel', 'non fonctionnel'])->nullable();
 
             $table->foreignId('maintenance_id')
                 ->constrained('maintenances')

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[ObservedBy([DailyUsageObserver::class])]
 class DailyUsage extends Model
@@ -32,7 +33,7 @@ class DailyUsage extends Model
         ];
     }
 
-    public function engin()
+    public function engin(): BelongsTo
     {
         return $this->belongsTo(Engin::class);
     }

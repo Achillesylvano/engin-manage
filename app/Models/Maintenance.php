@@ -16,6 +16,8 @@ class Maintenance extends Model
     /** @use HasFactory<\Database\Factories\MaintenanceFactory> */
     use HasFactory;
 
+    protected $guarded = [];
+
     public function newEloquentBuilder($query): MaintenanceBuilder
     {
         return new MaintenanceBuilder($query);
@@ -44,6 +46,11 @@ class Maintenance extends Model
     public function intervention(): HasOne
     {
         return $this->hasOne(Intervention::class);
+    }
+
+    public function maintenanceAutomatique(): BelongsTo
+    {
+        return $this->belongsTo(MaintenanceAutomatique::class);
     }
 
     public function scopeEnRetard(Builder $query)

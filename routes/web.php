@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CreateMaintenanceFromAutomatiqueController;
 use App\Http\Controllers\DailyUsageController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnginController;
@@ -24,6 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::resource('maintenance-automatiques', MaintenanceAutomatiqueController::class)->except('create');
     Route::get('maintenance-automatiques/create/{engin}', [MaintenanceAutomatiqueController::class, 'create'])
         ->name('maintenance-automatiques.create');
+    Route::get('maintenances/auto/create/{alertMaintenance}', CreateMaintenanceFromAutomatiqueController::class)
+        ->name('maintenances.auto.create');
 
 });
 Route::get('engins/{engin}/pdf', [EnginController::class, 'generatePdf'])->name('engins.pdf');
