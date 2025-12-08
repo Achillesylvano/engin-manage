@@ -13,7 +13,7 @@ class MaintenanceAutomatiqueController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): void
     {
         //
     }
@@ -41,23 +41,23 @@ class MaintenanceAutomatiqueController extends Controller
             'description' => ['required', 'string', 'max:255'],
         ]);
 
-        $existing = MaintenanceAutomatique::where('engin_id', $validated['engin_id'])
+        $existing = \App\Models\MaintenanceAutomatique::query()->where('engin_id', $validated['engin_id'])
             ->where('type', $validated['type'])
             ->first();
         if ($existing) {
-            return redirect()->back()->withErrors(['type' => 'Une maintenance automatique de ce type existe déjà pour cet engin.']);
+            return back()->withErrors(['type' => 'Une maintenance automatique de ce type existe déjà pour cet engin.']);
         }
 
-        MaintenanceAutomatique::create($validated);
+        \App\Models\MaintenanceAutomatique::query()->create($validated);
 
-        return redirect()->back()->with('success', 'Maintenance automatique créée');
+        return back()->with('success', 'Maintenance automatique créée');
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): void
     {
         //
     }
@@ -65,7 +65,7 @@ class MaintenanceAutomatiqueController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): void
     {
         //
     }
@@ -73,7 +73,7 @@ class MaintenanceAutomatiqueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): void
     {
         //
     }
@@ -81,7 +81,7 @@ class MaintenanceAutomatiqueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): void
     {
         //
     }

@@ -13,6 +13,6 @@ final class CreateEnginAction
      */
     public function execute(array $data): Engin
     {
-        return Engin::create($data);
+        return \App\Models\Engin::query()->create($data);
     }
 }

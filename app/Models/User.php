@@ -72,17 +72,20 @@ class User extends Authenticatable
         return $this->hasMany(DailyUsage::class, 'operateur_id');
     }
 
-    public function scopeTechnicien(Builder $query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function technicien(Builder $query)
     {
         return $query->where('role', UserRole::TECHNICIEN);
     }
 
-    public function scopeResponsableFlotte(Builder $query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function responsableFlotte(Builder $query)
     {
         return $query->where('role', UserRole::RESPONSABLE_FLOTTE);
     }
 
-    public function scopeOperateur(Builder $query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function operateur(Builder $query)
     {
         return $query->where('role', UserRole::OPERATEUR);
     }

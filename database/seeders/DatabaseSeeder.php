@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Daily usages
-        $dailyUsages = DailyUsage::factory(50)->make()->each(function ($dailyUsage) use ($engins, $operateurs, $agentsSuivi) {
+        $dailyUsages = DailyUsage::factory(50)->make()->each(function ($dailyUsage) use ($engins, $operateurs, $agentsSuivi): void {
             $dailyUsage->engin_id = $engins->random()->id;
             $dailyUsage->operateur_id = $operateurs->random()->id;
             $dailyUsage->agent_suivi_id = $agentsSuivi->random()->id;
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
         });
 
         // Incidents
-        $incidents = Incident::factory(15)->make()->each(function ($incident) use ($engins, $dailyUsages, $operateurs) {
+        $incidents = Incident::factory(15)->make()->each(function ($incident) use ($engins, $dailyUsages, $operateurs): void {
             $incident->engin_id = $engins->random()->id;
             $incident->daily_usage_id = $dailyUsages->random()->id;
             $incident->operateur_id = $operateurs->random()->id;
@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
         });
 
         // Maintenances
-        $maintenances = Maintenance::factory(20)->make()->each(function ($maintenance) use ($engins, $techniciens, $responsables, $incidents) {
+        $maintenances = Maintenance::factory(20)->make()->each(function ($maintenance) use ($engins, $techniciens, $responsables, $incidents): void {
             $maintenance->engin_id = $engins->random()->id;
             $maintenance->technicien_id = $techniciens->random()->id;
             $maintenance->responsable_id = $responsables->random()->id;
@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
         });
 
         // Interventions
-        Intervention::factory(20)->make()->each(function ($intervention) use ($maintenances) {
+        Intervention::factory(20)->make()->each(function ($intervention) use ($maintenances): void {
             $intervention->maintenance_id = $maintenances->random()->id;
             $intervention->save();
         });

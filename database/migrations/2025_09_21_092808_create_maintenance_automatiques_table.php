@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('maintenance_automatiques', function (Blueprint $table) {
+        Schema::create('maintenance_automatiques', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('engin_id')->constrained('engins')->cascadeOnDelete();
             $table->enum('type', ['horaire', 'km']);

@@ -9,7 +9,7 @@ enum MaintenanceType: string
     case PREVENTIVE = 'préventive';
     case CORRECTIVE = 'corrective';
 
-    public function label()
+    public function label(): string
     {
         return match ($this) {
             self::PREVENTIVE => 'Préventive',

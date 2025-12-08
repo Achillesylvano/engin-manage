@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MaintenanceAutomatique extends Model
 {
+    use \Illuminate\Database\Eloquent\Factories\HasFactory;
     protected $fillable = ['engin_id', 'type', 'description', 'dernier_compteur', 'seuil'];
 
     public function engin()

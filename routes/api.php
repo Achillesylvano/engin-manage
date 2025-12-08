@@ -15,9 +15,7 @@ Route::post('/auth/register', [AuthController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function (): void {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
-    Route::get('/user', function (Request $request) {
-        return new UserResource($request->user());
-    });
+    Route::get('/user', fn(Request $request): \App\Http\Resources\UserResource => new UserResource($request->user()));
 
     Route::apiResource('/daily-usages', DailyUsageController::class);
 

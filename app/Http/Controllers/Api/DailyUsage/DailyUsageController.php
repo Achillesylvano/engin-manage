@@ -44,14 +44,14 @@ class DailyUsageController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'site_destination' => 'required|string|max:255',
-            'observation_depart' => 'nullable|string|max:500',
-            'operateur_id' => 'required|exists:users,id',
-            'engin_id' => 'required|exists:engins,id',
-            'date_usage' => 'required|date',
-            'heure_sortie' => 'required|date_format:Y-m-d H:i:s',
-            'compteur_h_sortie' => 'required|numeric',
-            'compteur_km_sortie' => 'required|numeric',
+            'site_destination' => ['required', 'string', 'max:255'],
+            'observation_depart' => ['nullable', 'string', 'max:500'],
+            'operateur_id' => ['required', 'exists:users,id'],
+            'engin_id' => ['required', 'exists:engins,id'],
+            'date_usage' => ['required', 'date'],
+            'heure_sortie' => ['required', 'date_format:Y-m-d H:i:s'],
+            'compteur_h_sortie' => ['required', 'numeric'],
+            'compteur_km_sortie' => ['required', 'numeric'],
         ]);
 
         if ($validator->fails()) {
@@ -61,7 +61,7 @@ class DailyUsageController extends Controller
             ], 422);
         }
 
-        $dailyUsage = DailyUsage::create([
+        $dailyUsage = \App\Models\DailyUsage::query()->create([
             'site_destination' => $request->site_destination,
             'observation_depart' => $request->observation_depart,
             'operateur_id' => $request->operateur_id,
@@ -82,7 +82,7 @@ class DailyUsageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): void
     {
         //
     }
@@ -131,7 +131,7 @@ class DailyUsageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): void
     {
         //
     }

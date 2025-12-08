@@ -8,7 +8,7 @@ use App\Models\DailyUsage;
 
 class DailyUsageStatService
 {
-    public function getDailyUsageStats()
+    public function getDailyUsageStats(): array
     {
         return [
             'sortie_du_jour' => DailyUsage::sortieDuJour()->count(),

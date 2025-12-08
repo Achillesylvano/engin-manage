@@ -25,18 +25,18 @@ class UpdateEnginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'designation' => 'required|string|max:255',
-            'type_engin_id' => 'required|numeric|exists:type_engins,id',
-            'marque' => 'required|string|max:255',
-            'modele' => 'required|string|max:255',
+            'designation' => ['required', 'string', 'max:255'],
+            'type_engin_id' => ['required', 'numeric', 'exists:type_engins,id'],
+            'marque' => ['required', 'string', 'max:255'],
+            'modele' => ['required', 'string', 'max:255'],
             'numero_serie' => ['required', 'string', 'max:255', Rule::unique('engins', 'numero_serie')->ignore($this->engin->id)],
-            'compteur_h' => 'required|numeric|min:0',
-            'compteur_km' => 'required|numeric|min:0',
-            'seuil_maintenance_h' => 'required|numeric|min:0',
-            'seuil_maintenance_km' => 'required|numeric|min:0',
+            'compteur_h' => ['required', 'numeric', 'min:0'],
+            'compteur_km' => ['required', 'numeric', 'min:0'],
+            'seuil_maintenance_h' => ['required', 'numeric', 'min:0'],
+            'seuil_maintenance_km' => ['required', 'numeric', 'min:0'],
             'etat' => ['required', new Enum(EnginStatus::class)],
-            'date_acquisition' => 'required|date',
-            'capacite_reservoir' => 'required|numeric|min:0',
+            'date_acquisition' => ['required', 'date'],
+            'capacite_reservoir' => ['required', 'numeric', 'min:0'],
         ];
     }
 

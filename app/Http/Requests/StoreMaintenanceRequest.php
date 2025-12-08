@@ -26,13 +26,13 @@ class StoreMaintenanceRequest extends FormRequest
     {
         return [
             'type' => [Rule::enum(MaintenanceType::class)],
-            'description' => 'string|required|max:255',
+            'description' => ['string', 'required', 'max:255'],
             'date_planifiee' => 'required|date|after_or_equal:'.now(),
             'statut' => ['required', Rule::enum(MaintenanceStatus::class)],
             'engin_id' => ['numeric', 'exists:engins,id'],
-            'technicien_id' => 'required|numeric|exists:users,id',
-            'incident_id' => 'numeric|nullable|exists:incidents,id',
-            'maintenance_automatique_id' => 'numeric|nullable|exists:maintenance_automatiques,id',
+            'technicien_id' => ['required', 'numeric', 'exists:users,id'],
+            'incident_id' => ['numeric', 'nullable', 'exists:incidents,id'],
+            'maintenance_automatique_id' => ['numeric', 'nullable', 'exists:maintenance_automatiques,id'],
         ];
     }
 

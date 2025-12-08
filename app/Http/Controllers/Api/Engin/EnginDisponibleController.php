@@ -13,7 +13,7 @@ class EnginDisponibleController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): \App\Http\Resources\EnginCollection
     {
         $engins = QueryBuilder::for(Engin::disponibles())->allowedFilters(['designation', 'numero_serie'])
             ->defaultSort('numero_serie')

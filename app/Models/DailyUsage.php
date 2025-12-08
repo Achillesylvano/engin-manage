@@ -48,17 +48,20 @@ class DailyUsage extends Model
         return $this->belongsTo(User::class, 'operateur_id');
     }
 
-    public function scopeSortieDuJour(Builder $query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function sortieDuJour(Builder $query)
     {
         return $query->whereDate('heure_sortie', now());
     }
 
-    public function scopeRetourDuJour(Builder $query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function retourDuJour(Builder $query)
     {
         return $query->whereDate('heure_retour', now());
     }
 
-    public function scopeEnCours(Builder $query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function enCours(Builder $query)
     {
         return $query->where('is_returned', false);
     }

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alert_maintenances', function (Blueprint $table) {
+        Schema::create('alert_maintenances', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('engin_id')->constrained()->cascadeOnDelete();
             $table->foreignId('maintenance_automatique_id')->constrained('maintenance_automatiques')->cascadeOnDelete();

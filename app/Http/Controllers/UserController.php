@@ -19,7 +19,7 @@ class UserController extends Controller
     {
         return Inertia::render('users/UserList', [
             'users' => UserResource::collection(
-                User::latest()
+                \App\Models\User::query()->latest()
                     ->paginate(15)
             ),
         ]);
@@ -41,21 +41,21 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255'],
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', new Enum(UserRole::class)],
         ]);
 
-        User::create($validated);
+        \App\Models\User::query()->create($validated);
 
-        return redirect()->route('users.index');
+        return to_route('users.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): void
     {
         //
     }
@@ -74,7 +74,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): void
     {
         //
     }
@@ -82,7 +82,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): void
     {
         //
     }

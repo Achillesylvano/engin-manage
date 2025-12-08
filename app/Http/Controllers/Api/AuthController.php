@@ -20,14 +20,12 @@ class AuthController extends Controller
         $request->validate([
             'matricule' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string'],
-            'device_name' => 'required',
+            'device_name' => ['required'],
         ]);
 
-        $user = User::where('matricule', $request->matricule)->first();
+        $user = \App\Models\User::query()->where('matricule', $request->matricule)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages(['matricule' => 'Les donnée saisie sont incorrect']);
-        }
+        throw_if(! $user || ! Hash::check($request->password, $user->password), ValidationException::withMessages(['matricule' => 'Les donnée saisie sont incorrect']));
 
         $token = $user->createToken($request->device_name)->plainTextToken;
 
@@ -50,13 +48,13 @@ class AuthController extends Controller
     public function store(Request $request): JsonResponse
     {
         // Validation manuelle pour toujours renvoyer JSON
-        $validator = \Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:users,email',
-            'matricule' => 'required|string|unique:users,matricule',
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
+            'matricule' => ['required', 'string', 'unique:users,matricule'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', new Enum(UserRole::class)],
-            'device_name' => 'required',
+            'device_name' => ['required'],
 
         ]);
 
@@ -70,7 +68,7 @@ class AuthController extends Controller
         $validated = $validator->validated();
         $validated['password'] = Hash::make($validated['password']);
 
-        $user = User::create($validated);
+        $user = \App\Models\User::query()->create($validated);
 
         // Génération du token Sanctum
         $token = $user->createToken($validated['device_name'])->plainTextToken;

@@ -28,8 +28,8 @@ class AlertMaintenanceService
             ->where('engin_id', $engin->id)
             ->where('statut', 'nouvelle')
             ->get(['maintenance_automatique_id', 'type'])
-            ->map(fn ($a) => $a->maintenance_automatique_id.'-'.$a->type)
-            ->toArray();
+            ->map(fn ($a): string => $a->maintenance_automatique_id.'-'.$a->type)
+            ->all();
 
         foreach ($engin->maintenancesAutomatiques as $maintenanceAuto) {
             $dernierCompteur = $maintenanceAuto->dernier_compteur;
@@ -43,7 +43,7 @@ class AlertMaintenanceService
 
                 if (! in_array($key, $alertesExistantes, true)) {
                     // Création de l'alerte
-                    $alertMaintenance = AlertMaintenance::create([
+                    $alertMaintenance = \App\Models\AlertMaintenance::query()->create([
                         'engin_id' => $engin->id,
                         'maintenance_automatique_id' => $maintenanceAuto->id,
                         'type' => $maintenanceAuto->type,
@@ -52,7 +52,7 @@ class AlertMaintenanceService
                     ]);
 
                     // Diffuser l'événement pour mise à jour temps réel
-                    AlertMaintenanceCreated::dispatch($alertMaintenance);
+                    event(new \App\Events\AlertMaintenanceCreated($alertMaintenance));
 
                     // Mise à jour du dernier compteur pour cette maintenance
                     $maintenanceAuto->update([

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AlertMaintenance extends Model
 {
+    use \Illuminate\Database\Eloquent\Factories\HasFactory;
     protected $guarded = [];
 
     public function engin()

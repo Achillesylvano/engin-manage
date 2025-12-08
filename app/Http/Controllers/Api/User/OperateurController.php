@@ -13,7 +13,7 @@ class OperateurController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): \App\Http\Resources\UserCollection
     {
         $operateurs = QueryBuilder::for(User::operateur())
             ->allowedFilters(['matricule'])

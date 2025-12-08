@@ -14,7 +14,7 @@ class DailyUsageObserver
      */
     public function created(DailyUsage $dailyUsage): void
     {
-        DailyUsageCreated::dispatch($dailyUsage);
+        event(new \App\Events\DailyUsageCreated($dailyUsage));
     }
 
     /**
@@ -42,7 +42,7 @@ class DailyUsageObserver
         $engin->refresh();
         // (new AlertMaintenanceService)->checkSeuil($dailyUsage);
         app(AlertMaintenanceService::class)->checkSeuil($dailyUsage);
-        DailyUsageUpdated::dispatch($dailyUsage);
+        event(new \App\Events\DailyUsageUpdated($dailyUsage));
 
     }
 
@@ -69,6 +69,4 @@ class DailyUsageObserver
     {
         //
     }
-
-    private function verifierSeuil($engin) {}
 }

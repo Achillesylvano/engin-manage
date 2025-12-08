@@ -11,7 +11,7 @@ class MaintenanceObserver
      */
     public function created(Maintenance $maintenance): void
     {
-        $maintenanceAuto = $maintenance->maintenanceAutomatique();
+        $maintenance->maintenanceAutomatique();
     }
 
     /**

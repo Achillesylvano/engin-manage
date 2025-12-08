@@ -8,7 +8,7 @@ use App\Models\Maintenance;
 
 class MaintenanceService
 {
-    public function getMaintenanceCounts()
+    public function getMaintenanceCounts(): array
     {
         return [
             'en_retard' => Maintenance::enRetard()->count(),

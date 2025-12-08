@@ -10,7 +10,7 @@ enum UserRole: string
     case OPERATEUR = 'operateur';
     case AGENT_SUIVI = 'agent_suivi';
 
-    public function label()
+    public function label(): string
     {
         return match ($this) {
             self::ADMIN => 'Admin',

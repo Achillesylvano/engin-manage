@@ -30,7 +30,7 @@ class EnginFactory extends Factory
             'etat' => fake()->randomElement(EnginStatus::cases()),
             'type_carburant' => fake()->randomElement(EnginCarburant::cases()),
             'date_acquisition' => fake()->dateTimeBetween('-5 years', 'now'),
-            'type_engin_id' => TypeEngin::inRandomOrder()->first()->id,
+            'type_engin_id' => \App\Models\TypeEngin::query()->inRandomOrder()->first()->id,
         ];
     }
 }

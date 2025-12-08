@@ -14,7 +14,7 @@ class DailyUsageController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): \App\Http\Resources\DailyUsageCollection
     {
         $dailyusages = QueryBuilder::for(DailyUsage::enCours())
             ->allowedFilters([

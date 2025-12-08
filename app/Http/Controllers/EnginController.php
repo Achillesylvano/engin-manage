@@ -129,7 +129,7 @@ class EnginController extends Controller
     {
         $action->execute($engin);
 
-        return redirect()->route('dashboard');
+        return to_route('dashboard');
     }
 
     private function getFilteredMaintenances(Engin $engin, EnginDataFilterRequest $request)
@@ -148,7 +148,7 @@ class EnginController extends Controller
             ->orderBy('date_usage', 'desc');
     }
 
-    public function generatePdf(Engin $engin, EnginDataFilterRequest $request)
+    public function generatePdf(Engin $engin, EnginDataFilterRequest $request): \Illuminate\Http\Response
     {
         $engin->load(['typeEngin']);
 

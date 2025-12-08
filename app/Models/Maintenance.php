@@ -53,25 +53,29 @@ class Maintenance extends Model
         return $this->belongsTo(MaintenanceAutomatique::class);
     }
 
-    public function scopeEnRetard(Builder $query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function enRetard(Builder $query)
     {
         return $query->where('statut', MaintenanceStatus::PLANIFIEE)
             ->whereDate('date_planifiee', '<', now());
     }
 
-    public function scopeEnCours(Builder $query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function enCours(Builder $query)
     {
         return $query->where('statut', MaintenanceStatus::EN_COURS)
             ->whereDate('date_planifiee', now());
     }
 
-    public function scopeAVenir(Builder $query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function aVenir(Builder $query)
     {
         return $query->where('statut', MaintenanceStatus::PLANIFIEE)
             ->whereDate('date_planifiee', '>', now());
     }
 
-    public function scopeTerminee(Builder $query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function terminee(Builder $query)
     {
         return $query->where('statut', MaintenanceStatus::TERMINEE);
     }

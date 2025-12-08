@@ -18,7 +18,7 @@ class DailyUsageResource extends JsonResource
         return [
             'id' => $this->id,
             'date_usage' => $this->date_usage
-                ? Carbon::parse($this->date_usage)->translatedFormat('d/m/Y H:i')
+                ? \Illuminate\Support\Facades\Date::parse($this->date_usage)->translatedFormat('d/m/Y H:i')
                 : null,
             'site_destination' => $this->site_destination,
             'observation_depart' => $this->observation_depart,

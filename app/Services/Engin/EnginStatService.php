@@ -6,7 +6,7 @@ use App\Models\Engin;
 
 class EnginStatService
 {
-    public function getStats()
+    public function getStats(): array
     {
         $totalEngin = Engin::query()->count();
         $enginOperationnel = Engin::query()->operationnel()->count();

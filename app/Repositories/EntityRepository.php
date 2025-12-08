@@ -10,11 +10,8 @@ use Illuminate\Support\Fluent;
 
 final readonly class EntityRepository
 {
-    protected Builder $query;
-
-    public function __construct(Builder $query)
+    public function __construct(private Builder $query)
     {
-        $this->query = $query;
     }
 
     /**

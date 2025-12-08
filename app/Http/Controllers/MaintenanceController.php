@@ -48,17 +48,17 @@ class MaintenanceController extends Controller
      */
     public function store(StoreMaintenanceRequest $request)
     {
-        $user = auth()->user();
+        auth()->user();
         $validated = $request->validated();
-        Maintenance::create($validated);
+        \App\Models\Maintenance::query()->create($validated);
 
-        return redirect()->back()->with('success', 'La maintenance a été créé');
+        return back()->with('success', 'La maintenance a été créé');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): void
     {
         //
     }
@@ -66,7 +66,7 @@ class MaintenanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id): void
     {
         //
     }
@@ -74,7 +74,7 @@ class MaintenanceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): void
     {
         //
     }
@@ -82,7 +82,7 @@ class MaintenanceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): void
     {
         //
     }

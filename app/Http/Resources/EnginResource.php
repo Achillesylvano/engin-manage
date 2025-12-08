@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class EnginResource extends JsonResource
 {
-    public static $wrap = null;
+    public static $wrap;
 
     /**
      * Transform the resource into an array.
@@ -32,7 +32,7 @@ class EnginResource extends JsonResource
             'type_carburant_label' => $this->type_carburant->label(),
             'carburant_color' => $this->type_carburant->color(),
             'capacite_reservoir' => $this->capacite_reservoir,
-            'date_acquisition' => Carbon::parse($this->date_acquisition)->format('Y-m-d'),
+            'date_acquisition' => \Illuminate\Support\Facades\Date::parse($this->date_acquisition)->format('Y-m-d'),
             'type_engin' => TypeEnginResource::make($this->whenLoaded('typeEngin')),
 
             // 'maintenances' => MaintenanceResource::collection($this->whenLoaded('maintenances')),

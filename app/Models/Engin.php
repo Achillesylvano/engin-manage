@@ -46,17 +46,20 @@ class Engin extends Model
         return $this->belongsTo(TypeEngin::class, 'type_engin_id', 'id');
     }
 
-    public function scopeOperationnel(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function operationnel(Builder $query): Builder
     {
         return $query->where('etat', EnginStatus::OPERATIONNEL);
     }
 
-    public function scopeEnMaintenance(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function enMaintenance(Builder $query): Builder
     {
         return $query->where('etat', EnginStatus::EN_MAINTENANCE);
     }
 
-    public function scopeHorsService(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function horsService(Builder $query): Builder
     {
         return $query->where('etat', EnginStatus::HORS_SERVICE);
     }
@@ -66,7 +69,8 @@ class Engin extends Model
         return $this->hasOne(DailyUsage::class)->latestOfMany();
     }
 
-    public function scopeDisponibles(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function disponibles(Builder $query): Builder
     {
         return $query->whereDoesntHave('dailyUsages')
             ->orWhereHas('latestDailyUsage', function ($q): void {
@@ -74,7 +78,8 @@ class Engin extends Model
             });
     }
 
-    public function scopeSortie(Builder $query): Builder
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function sortie(Builder $query): Builder
     {
         return $query->whereHas('latestDailyUsage', function ($q): void {
             $q->where('is_returned', false);
