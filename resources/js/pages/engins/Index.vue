@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
+import { Engin, type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Link } from '@inertiajs/vue3'
@@ -30,29 +30,9 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-type TypeEngin = {
-    id: number;
-    nom: string;
-};
-
 const props = defineProps<{
     engins: {
-        data: Array<{
-            id: number
-            numero_serie: string
-            marque: string
-            etat: string
-            etat_color: string
-            type_carburant_label: string
-            compteur_h: number
-            compteur_km: number
-            capacite_reservoir: number
-            date_acquisition: string
-            modele: string
-            type_engin: TypeEngin | null;
-            designation: string;
-            etat_label: string;
-        }>
+        data: Array<Engin>
         meta: {
             current_page: number
             last_page: number
@@ -260,25 +240,32 @@ const submit = () => {
                     <TabsContent value="card">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
                             <template v-if="props.engins.data.length > 0">
-                                <EnginCard :engins="props.engins.data" />
+                                <EnginCard v-for="engin in props.engins.data" :key="engin.id" :engin="engin" />
                             </template>
                             <template v-else>
-                                <div class="text-gray-900 text-center py-4 flex justify-center col-span-full">
-                                    Aucun engin trouvé.
+                                <div class="glass-card col-span-full rounded-lg p-12 text-center animate-fade-in"><svg
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor"
+                                        class="w-12 h-12 text-muted-foreground mx-auto mb-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                                    </svg>
+
+                                    <h3 class="text-lg font-medium text-foreground mb-2">Aucun engin trouvé.</h3>
+                                    <p class="text-muted-foreground">Modifiez vos filtres pour voir plus de résultats.
+                                    </p>
                                 </div>
                             </template>
                         </div>
                     </TabsContent>
                     <TabsContent value="table">
-                        <EnginTable :engins="props.engins.data"/>
+                        <EnginTable :engins="props.engins.data" />
                     </TabsContent>
                 </Tabs>
             </div>
             <div class="col-span-full flex justify-center m-2">
                 <Pagination :meta="props.engins.meta" :only="['engins']" />
             </div>
-
-
         </div>
     </AppLayout>
 </template>
