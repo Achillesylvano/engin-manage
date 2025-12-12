@@ -65,14 +65,15 @@ export interface DailyUsage {
 }
 
 export interface Maintenance {
+    id: number;
+    engin?: Partial<Engin> | null;
     type: string;
     description: string;
     date_planifiee: string;
     statut: string;
-    engin_id: number;
-    technicien?: User;
-    responsable?: User;
-    incident?: Incident | null;
+    technicien?: Partial<User> | null;
+    responsable?: Partial<User> | null;
+    incident?: Partial<Incident> | null;
 }
 
 export interface Engin {

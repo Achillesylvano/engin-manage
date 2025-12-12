@@ -6,6 +6,7 @@ use App\Enums\MaintenanceStatus;
 use App\Enums\MaintenanceType;
 use App\Http\Requests\StoreMaintenanceRequest;
 use App\Http\Resources\EnginResource;
+use App\Http\Resources\MaintenanceResource;
 use App\Http\Resources\UserResource;
 use App\Models\Engin;
 use App\Models\Maintenance;
@@ -21,9 +22,12 @@ class MaintenanceController extends Controller
      */
     public function index()
     {
-        $maintenance = (new MaintenanceService)->getMaintenanceCounts();
+        $counts = (new MaintenanceService)->getMaintenanceCounts();
+        $maintenances = MaintenanceResource::collection(
+            Maintenance::with(['engin.typeEngin', 'technicien'])->latest()->paginate(16)
+        );
 
-        return Inertia::render('maintenance/Index', $maintenance);
+        return Inertia::render('maintenance/Index', [...$counts, 'maintenances' => $maintenances]);
     }
 
     /**
@@ -50,9 +54,9 @@ class MaintenanceController extends Controller
     {
         auth()->user();
         $validated = $request->validated();
-        \App\Models\Maintenance::query()->create($validated);
+        Maintenance::query()->create($validated);
 
-        return back()->with('success', 'La maintenance a été créé');
+        return to_route('maintenances.index')->with('success', 'Maintenance créée avec succès.');
     }
 
     /**

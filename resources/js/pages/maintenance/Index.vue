@@ -3,7 +3,11 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
-import { Link } from '@inertiajs/vue3'
+import MaintenanceCard from '@/components/MaintenanceCard.vue';
+import type { Maintenance } from '@/types';
+import { Link } from '@inertiajs/vue3';
+import Pagination from '@/components/Pagination.vue';
+
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,8 +21,22 @@ const props = defineProps<{
     en_cours: number,
     a_venir: number,
     terminee: number,
-}>();
+    maintenances: {
+        data: Maintenance[];
+        meta: {
+            current_page: number
+            last_page: number
+            total: number
+            per_page: number
+            links: Array<{
+                url: string | null
+                label: string
+                active: boolean
+            }>
+        }
 
+    };
+}>();
 </script>
 <template>
 
@@ -122,6 +140,28 @@ const props = defineProps<{
                 </div>
             </div>
 
+            <!--Maintenance list-->
+            <div>
+                <div v-if="props.maintenances.data.length === 0"
+                    class="glass-card rounded-lg p-12 text-center animate-fade-in">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-12 h-12 text-muted-foreground mx-auto mb-4">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                    </svg>
+
+                    <h3 class="text-lg font-medium text-foreground mb-2">Aucune maintenance trouvée</h3>
+                    <p class="text-muted-foreground">Modifiez vos filtres pour voir plus de résultats.</p>
+                </div>
+
+                <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 animate-slide-up">
+                    <MaintenanceCard v-for="(m, index) in props.maintenances.data" :key="m.id" :maintenance="m"
+                        :style="{ animationDelay: `${index * 50}ms` }" />
+                </div>
+            </div>
+            <div class="col-span-full flex justify-center m-2">
+                <Pagination :meta="props.maintenances.meta" :only="['maintenances']" />
+            </div>
         </div>
     </AppLayout>
 </template>

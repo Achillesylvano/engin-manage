@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Events\DailyUsageCreated;
-use App\Events\DailyUsageUpdated;
 use App\Models\DailyUsage;
 use App\Services\AlertMaintenanceService;
 
@@ -14,7 +13,7 @@ class DailyUsageObserver
      */
     public function created(DailyUsage $dailyUsage): void
     {
-        event(new \App\Events\DailyUsageCreated($dailyUsage));
+        event(new DailyUsageCreated($dailyUsage));
     }
 
     /**
