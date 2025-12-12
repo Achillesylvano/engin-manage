@@ -1,12 +1,22 @@
 <script lang="ts" setup>
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { Button } from '@/components/ui/button';
 import MaintenanceCard from '@/components/MaintenanceCard.vue';
 import type { Maintenance } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import Pagination from '@/components/Pagination.vue';
+import { Input } from '@/components/ui/input';
+
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -35,8 +45,29 @@ const props = defineProps<{
             }>
         }
 
-    };
+    },
+    maintenance_types: Record<string, string>,
+    maintenance_statut: Record<string, string>,
 }>();
+const form = useForm<{
+    filter: {
+        type: string,
+        statut: string,
+        numero_serie: string,
+    }
+}>({
+    filter: {
+        type: '',
+        statut: '',
+        numero_serie: ''
+    }
+})
+const submit = () => {
+    form.get(route('maintenances.index'), {
+        preserveScroll: true,
+        onFinish: () => form.reset("filter.type", "filter.statut"),
+    });
+};
 </script>
 <template>
 
@@ -139,6 +170,66 @@ const props = defineProps<{
                     </div>
                 </div>
             </div>
+
+            <!-- Barre de recherche et filtres -->
+            <form class="bg-white shadow rounded-lg p-4" @submit.prevent="submit">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <!-- Recherche -->
+                    <div class="flex-1 relative">
+                        <Input v-model="form.filter.numero_serie" id="numero_serie" class="pl-8 w-full"
+                            placeholder="Rechercher par numéro de série..." />
+
+                    </div>
+                    <div class="flex-1 relative">
+                        <Select v-model="form.filter.type">
+                            <SelectTrigger class="w-full">
+                                <SelectValue placeholder="Selectinner un type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <template v-for="(label, value) in props.maintenance_types" :key="value">
+                                        <SelectItem :value="value">
+                                            {{ label }}
+                                        </SelectItem>
+                                    </template>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div class="flex-1 relative">
+                        <Select v-model="form.filter.statut">
+                            <SelectTrigger class="w-full">
+                                <SelectValue placeholder="Selectinner un statut" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <template v-for="(label, value) in props.maintenance_statut" :key="value">
+                                        <SelectItem :value="value">
+                                            {{ label }}
+                                        </SelectItem>
+                                    </template>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+
+                    </div>
+
+                    <Button variant="secondary" size="sm">
+                        <span class="text-green-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                        </span>
+                    </Button>
+                    <div class="flex items-end">
+                        <Button variant="secondary" size="sm" class="w-full">
+                            Effacer les filtres
+                        </Button>
+                    </div>
+                </div>
+            </form>
 
             <!--Maintenance list-->
             <div>

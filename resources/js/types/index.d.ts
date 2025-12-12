@@ -66,14 +66,14 @@ export interface DailyUsage {
 
 export interface Maintenance {
     id: number;
-    engin?: Partial<Engin> | null;
+    engin?: Engin | null;
     type: string;
     description: string;
     date_planifiee: string;
     statut: string;
-    technicien?: Partial<User> | null;
-    responsable?: Partial<User> | null;
-    incident?: Partial<Incident> | null;
+    technicien?: User | null;
+    responsable?: User | null;
+    incident?: Incident | null;
 }
 
 export interface Engin {

@@ -14,20 +14,42 @@ use App\Models\User;
 use App\Services\Maintenance\MaintenanceService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class MaintenanceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $counts = (new MaintenanceService)->getMaintenanceCounts();
-        $maintenances = MaintenanceResource::collection(
-            Maintenance::with(['engin.typeEngin', 'technicien'])->latest()->paginate(16)
-        );
+        $maintenances = QueryBuilder::for(Maintenance::class)
+            ->allowedFilters([
+                'type',
+                'statut',
+                AllowedFilter::callback('numero_serie', function ($query, $value): void {
+                    $query->whereHas('engin', fn ($q) => $q->where('numero_serie', 'like', "%{$value}%"));
+                }),
+                AllowedFilter::callback('technicien', function ($query, $value): void {
+                    $query->whereHas('technicien', fn ($q) => $q->where('name', 'like', "%{$value}%"));
+                }),
+            ])
+            ->with(['engin.typeEngin', 'technicien'])
+            ->latest()
+            ->paginate(16);
 
-        return Inertia::render('maintenance/Index', [...$counts, 'maintenances' => $maintenances]);
+        $counts = (new MaintenanceService)->getMaintenanceCounts();
+        // $maintenances = MaintenanceResource::collection(
+        //     Maintenance::with(['engin.typeEngin', 'technicien'])->latest()->paginate(16)
+        // );
+
+        return Inertia::render('maintenance/Index', [
+            ...$counts,
+            'maintenances' => MaintenanceResource::collection($maintenances),
+            'maintenance_types' => MaintenanceType::values(),
+            'maintenance_statut' => MaintenanceStatus::values(),
+        ]);
     }
 
     /**
