@@ -32,13 +32,13 @@ const props = defineProps<{
                     <span class="text-gray-600 font-medium">Marque :</span>
                     <span class="text-gray-900 font-semibold truncate">{{
                         props.engin.marque
-                        }}</span>
+                    }}</span>
                 </div>
                 <div class="flex justify-between gap-x-2">
                     <span class="text-gray-600 font-medium">Type :</span>
                     <span class="text-gray-900 font-semibold truncate">{{
                         props.engin.type_engin?.nom
-                        }}</span>
+                    }}</span>
                 </div>
                 <div class="flex justify-between gap-x-2">
                     <span class="text-gray-600 font-medium">Modèle :</span>
@@ -48,7 +48,7 @@ const props = defineProps<{
                     <span class="text-gray-600 font-medium">N° de série :</span>
                     <span class="text-gray-900 font-mono text-sm truncate">{{
                         props.engin.numero_serie
-                        }}</span>
+                    }}</span>
                 </div>
                 <div class="flex justify-between gap-x-2">
                     <span class="text-gray-600 font-medium">Carburant :</span>
@@ -58,25 +58,25 @@ const props = defineProps<{
                     <span class="text-gray-600 font-medium">Heures d'utilisation :</span>
                     <span class="text-gray-900 font-semibold">{{
                         props.engin.compteur_h
-                        }}</span>
+                    }}</span>
                 </div>
                 <div class="flex justify-between gap-x-2">
                     <span class="text-gray-600 font-medium">Kilométrage :</span>
                     <span class="text-gray-900 font-semibold">{{
                         props.engin.compteur_km
-                        }}</span>
+                    }}</span>
                 </div>
                 <div class="flex justify-between gap-x-2">
                     <span class="text-gray-600 font-medium">Date d'acquisition :</span>
                     <span class="text-gray-900">{{
                         props.engin.date_acquisition
-                        }}</span>
+                    }}</span>
                 </div>
                 <div class="flex justify-between gap-x-2">
                     <span class="text-gray-600 font-medium">Capacité réservoir :</span>
                     <span class="text-gray-900 font-semibold">{{
                         props.engin.capacite_reservoir
-                        }}</span>
+                    }}</span>
                 </div>
             </div>
         </div>
@@ -96,7 +96,7 @@ const props = defineProps<{
                     </Button>
                 </Link>
 
-                <Link href="#" class="flex-1">
+                <Link :href="route('engins.edit', props.engin.id)" class="flex-1">
                     <Button class="w-full bg-yellow-500 hover:bg-yellow-600 text-white">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

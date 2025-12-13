@@ -62,10 +62,14 @@ const formKm = useForm<{
 });
 
 const submitHoraire = () => {
-    formHoraire.post(route('maintenance-automatiques.store'));
+    formHoraire.post(route('maintenance-automatiques.store'), {
+        onFinish: () => formHoraire.reset('seuil', 'description'),
+    });
 };
 const submitKm = () => {
-    formKm.post(route('maintenance-automatiques.store'));
+    formKm.post(route('maintenance-automatiques.store'), {
+        onFinish: () => formKm.reset('seuil', 'description'),
+    });
 };
 
 

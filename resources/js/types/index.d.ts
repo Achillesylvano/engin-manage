@@ -86,6 +86,7 @@ export interface Engin {
     etat_label: string;
     etat_color: string;
     type_carburant_label: string;
+    type_carburant: string;
     compteur_h: number;
     compteur_km: number;
     capacite_reservoir: number;

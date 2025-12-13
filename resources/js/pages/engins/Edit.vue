@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/engins/Layout.vue';
-import { TypeEngin, type BreadcrumbItem } from '@/types';
+import { Engin, type BreadcrumbItem } from '@/types';
 import { LoaderCircle } from 'lucide-vue-next';
 import {
     Card,
@@ -25,26 +25,7 @@ import {
 } from '@/components/ui/select'
 
 const props = defineProps<{
-    engin: {
-        data: {
-        id: number;
-        designation: string;
-        type_engin_id: number;
-        marque: string;
-        modele: string;
-        numero_serie: string;
-        compteur_h: string;
-        compteur_km: string;
-        seuil_maintenance_h: string;
-        seuil_maintenance_km: string;
-        etat: string;
-        type_carburant: string;
-        type_carburant_label: string;
-        date_acquisition: string;
-        type_engin: TypeEngin | null;
-        capacite_reservoir: string;
-    }
-    };
+    engin: Engin,
     types_engin:
     {
         data: Array<{
@@ -59,28 +40,26 @@ const props = defineProps<{
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Modifier un Engin',
-        href: `/engins/${props.engin.data.id}/edit`,
+        href: `/engins/${props.engin.id}/edit`,
     },
 ];
 
 const form = useForm({
-    designation: props.engin.data.designation,
-    type_engin_id: props.engin.data.type_engin?.id,
-    marque: props.engin.data.marque,
-    modele: props.engin.data.modele,
-    numero_serie: props.engin.data.numero_serie,
-    compteur_h: props.engin.data.compteur_h,
-    compteur_km: props.engin.data.compteur_km,
-    seuil_maintenance_h: props.engin.data.seuil_maintenance_h,
-    seuil_maintenance_km: props.engin.data.seuil_maintenance_km,
-    etat: props.engin.data.etat,
-    type_carburant: props.engin.data.type_carburant,
-    date_acquisition: props.engin.data.date_acquisition,
-    capacite_reservoir: props.engin.data.capacite_reservoir,
+    designation: props.engin.designation,
+    type_engin_id: props.engin.type_engin?.id,
+    marque: props.engin.marque,
+    modele: props.engin.modele,
+    numero_serie: props.engin.numero_serie,
+    compteur_h: props.engin.compteur_h,
+    compteur_km: props.engin.compteur_km,
+    etat: props.engin.etat,
+    type_carburant: props.engin.type_carburant,
+    date_acquisition: props.engin.date_acquisition,
+    capacite_reservoir: props.engin.capacite_reservoir,
 });
 
 const submit = () => {
-    form.put(route('engins.update', props.engin.data.id), {
+    form.put(route('engins.update', props.engin.id), {
         preserveScroll: true,
     });
 };
@@ -103,8 +82,8 @@ const submit = () => {
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="grid gap-2">
                                     <Label for="designation">Désignation</Label>
-                                    <Input id="designation" class="mt-1 block w-full" v-model="form.designation" required
-                                        autocomplete="designation" placeholder="Désignation" />
+                                    <Input id="designation" class="mt-1 block w-full" v-model="form.designation"
+                                        required autocomplete="designation" placeholder="Désignation" />
                                     <InputError class="mt-2" :message="form.errors.designation" />
                                 </div>
 
@@ -188,8 +167,8 @@ const submit = () => {
                                 </div>
                                 <div class="grid gap-2">
                                     <Label for="capacite_reservoir">Capacité du reservoir (L)</Label>
-                                    <Input id="capacite_reservoir" class="mt-1 block w-full" v-model="form.capacite_reservoir"
-                                        required placeholder="0,00" />
+                                    <Input id="capacite_reservoir" class="mt-1 block w-full"
+                                        v-model="form.capacite_reservoir" required placeholder="0,00" />
                                     <InputError class="mt-2" :message="form.errors.capacite_reservoir" />
                                 </div>
                             </div>
@@ -216,18 +195,6 @@ const submit = () => {
                                         required placeholder="0,00" />
                                     <InputError class="mt-2" :message="form.errors.compteur_km" />
                                 </div>
-                                <div class="grid gap-2">
-                                    <Label for="seuil_maintenance_h">Seuil maintenance (heures)</Label>
-                                    <Input id="seuil_maintenance_h" class="mt-1 block w-full"
-                                        v-model="form.seuil_maintenance_h" required placeholder="0,00" />
-                                    <InputError class="mt-2" :message="form.errors.seuil_maintenance_h" />
-                                </div>
-                                <div class="grid gap-2">
-                                    <Label for="seuil_maintenance_km">Seuil maintenance (km)</Label>
-                                    <Input id="seuil_maintenance_km" class="mt-1 block w-full"
-                                        v-model="form.seuil_maintenance_km" required placeholder="0,00" />
-                                    <InputError class="mt-2" :message="form.errors.seuil_maintenance_km" />
-                                </div>
                                 <div class="col-span-2 flex items-center gap-4">
                                     <Button type="submit" tabindex="5" :disabled="form.processing">
                                         <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
@@ -237,7 +204,6 @@ const submit = () => {
                             </div>
                         </CardContent>
                     </Card>
-                    <!-- <HeadingSmall title="Engin" description="Creer un nouveaun engin" />-->
                 </form>
             </div>
         </SettingsLayout>
