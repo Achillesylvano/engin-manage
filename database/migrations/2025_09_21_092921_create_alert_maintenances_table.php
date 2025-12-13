@@ -19,6 +19,8 @@ return new class extends Migration
             $table->enum('statut', ['nouvelle', 'planifiee'])->default('nouvelle');
             $table->enum('type', ['horaire', 'km'])
                 ->default('horaire');
+
+            $table->unique(['maintenance_automatique_id', 'compteur_declencheur']);
             $table->timestamps();
         });
     }

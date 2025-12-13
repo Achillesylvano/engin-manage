@@ -31,9 +31,15 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('users')
                 ->onDelete('set null');
+
             $table->foreignId('maintenance_automatique_id')
                 ->nullable()
-                ->constrained()
+                ->constrained('maintenance_automatiques')
+                ->nullOnDelete();
+
+            $table->foreignId('alert_maintenance_id')
+                ->nullable()
+                ->constrained('alert_maintenances')
                 ->nullOnDelete();
         });
     }

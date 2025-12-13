@@ -19,6 +19,8 @@ return new class extends Migration
             $table->text('description'); // liste des tâches à faire
             $table->decimal('dernier_compteur', 10, 2)->default(0);
             $table->boolean('actif')->default(true);
+
+            $table->unique(['engin_id', 'type']);
             $table->timestamps();
         });
     }

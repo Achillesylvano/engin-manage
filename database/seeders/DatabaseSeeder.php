@@ -17,12 +17,43 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin fixe
         User::factory()->create([
             'matricule' => 'SMMC-0000',
             'name' => 'Achille',
             'email' => 'achille@gmail.com',
             'role' => 'admin',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'matricule' => 'SMMC-0001',
+            'name' => 'Jean Technicien',
+            'email' => 'technicien@gmail.com',
+            'role' => 'technicien',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'matricule' => 'SMMC-0002',
+            'name' => 'Marie Responsable',
+            'email' => 'responsable@gmail.com',
+            'role' => 'responsable_flotte',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'matricule' => 'SMMC-0003',
+            'name' => 'Paul Opérateur',
+            'email' => 'operateur@gmail.com',
+            'role' => 'operateur',
+            'password' => Hash::make('password'),
+        ]);
+
+        User::factory()->create([
+            'matricule' => 'SMMC-0004',
+            'name' => 'Sophie Agent',
+            'email' => 'agent@gmail.com',
+            'role' => 'agent_suivi',
             'password' => Hash::make('password'),
         ]);
 
