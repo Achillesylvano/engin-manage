@@ -11,7 +11,11 @@ class MaintenanceObserver
      */
     public function created(Maintenance $maintenance): void
     {
-        $maintenance->maintenanceAutomatique();
+        if ($maintenance->alert_maintenance_id) {
+            $maintenance->alertMaintenance->update([
+                'statut' => 'planifiee',
+            ]);
+        }
     }
 
     /**

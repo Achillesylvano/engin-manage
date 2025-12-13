@@ -48,8 +48,9 @@ const form = useForm<{
     date_planifiee: string;
     statut: string;
     engin_id: number;
-    technicien_id: number;
+    technicien_id?: number;
     incident_id?: number;
+    alert_maintenance_id?: number
     maintenance_automatique_id?: number
 
 }>({
@@ -58,8 +59,9 @@ const form = useForm<{
     date_planifiee: '',
     statut: 'planifiee',
     engin_id: props.alertMaintenance.engin_id,
-    technicien_id: 0,
+    technicien_id: undefined,
     incident_id: undefined,
+    alert_maintenance_id: props.alertMaintenance.id,
     maintenance_automatique_id: props.alertMaintenance.maintenance_automatique_id
 });
 

@@ -33,6 +33,7 @@ class StoreMaintenanceRequest extends FormRequest
             'technicien_id' => ['required', 'numeric', 'exists:users,id'],
             'incident_id' => ['numeric', 'nullable', 'exists:incidents,id'],
             'maintenance_automatique_id' => ['numeric', 'nullable', 'exists:maintenance_automatiques,id'],
+            'alert_maintenance_id' => ['numeric', 'nullable', 'exists:alert_maintenances,id'],
         ];
     }
 
