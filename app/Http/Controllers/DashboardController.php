@@ -18,16 +18,11 @@ class DashboardController extends Controller
     {
         $enginStat = (new EnginStatService)->getStats();
 
-        // Récupération des alertes avec relations
         $alertes = AlertMaintenance::with(['engin', 'maintenanceAutomatique'])
+            ->where('statut', 'nouvelle')
             ->latest()
-            ->take(3)
-            ->get()
-            ->map(function ($alerte) {
-                $alerte->created_human = $alerte->created_at->diffForHumans();
-
-                return $alerte;
-            });
+            ->take(10)
+            ->get();
 
         return Inertia::render('Dashboard', array_merge([
             'incidents' => Incident::with('engin')->latest()->take(5)->get(),
