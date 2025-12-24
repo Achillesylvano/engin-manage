@@ -245,9 +245,13 @@ useEchoPublic("alert-maintenance-channel", ".alert.maintenance.created", (event:
                         <h3 class="text-lg font-medium text-gray-900">Alertes maintenances</h3>
                     </div>
                     <div class="px-6 py-4">
-                        <div class="space-y-4">
-                            <AlertMaintenanceList :alertMaintenances="alertMaintenances" />
+                        <div v-if="alertMaintenances.length" class="space-y-4">
+                            <AlertMaintenanceList v-for="alerte in alertMaintenances" :key="alerte.id"
+                                :alerte="alerte" />
                         </div>
+                        <p v-else class="text-sm text-muted-foreground text-center py-6">
+                            Aucune alerte de planification de maintenance.
+                        </p>
                     </div>
                 </div>
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
