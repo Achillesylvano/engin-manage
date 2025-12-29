@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\DailyUsage\DailyUsageController;
 use App\Http\Controllers\Api\DailyUsageEncours\DailyUsageController as DailyUsageEncoursController;
 use App\Http\Controllers\Api\Engin\EnginDisponibleController;
 use App\Http\Controllers\Api\Engin\EnginSortieController;
+use App\Http\Controllers\Api\Maintenance\MaintenanceController;
 use App\Http\Controllers\Api\User\OperateurController;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -26,4 +27,5 @@ Route::middleware('auth:sanctum')->group(function (): void {
     Route::get('/engin-sortie', EnginSortieController::class);
 
     Route::get('/daily-usages-encours', DailyUsageEncoursController::class);
+    Route::get('/maintenances',MaintenanceController::class);
 });
