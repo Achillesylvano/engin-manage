@@ -90,14 +90,14 @@ const submit = () => {
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="grid gap-2">
                                     <Label for="nom">Type de maintenance</Label>
-                                    <Input id="designation" class="mt-1 block w-full" v-model="form.type" required
+                                    <Input id="designation" class="mt-1 block w-full" v-model="form.type" required readonly 
                                         autocomplete="designation" placeholder="Désignation" />
                                     <InputError class="mt-2" :message="form.errors.type" />
                                 </div>
 
                                 <div class="grid gap-2">
                                     <Label for="nom">Statut</Label>
-                                    <Input id="designation" class="mt-1 block w-full" v-model="form.statut" required
+                                    <Input id="designation" class="mt-1 block w-full" v-model="form.statut" required readonly
                                         autocomplete="designation" placeholder="Désignation" />
                                     <InputError class="mt-2" :message="form.errors.statut" />
                                 </div>
