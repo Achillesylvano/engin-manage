@@ -31,7 +31,6 @@ class IncidentResource extends JsonResource
 
             // Foreign keys
             'engin_id' => $this->engin_id,
-            'technicien_id' => $this->technicien_id,
             'operateur_id' => $this->operateur_id,
             'daily_usage_id' => $this->daily_usage_id,
         ];
