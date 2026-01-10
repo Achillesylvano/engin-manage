@@ -15,6 +15,7 @@ class MaintenanceResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'type' => $this->type->label(),
             'description' => $this->description,
             'date_planifiee' => $this->date_planifiee->format('d-m-Y'),
